@@ -33,6 +33,9 @@
           <div class="form-control mt-6">
             <button class="btn btn-primary" @click="sub">Login</button>
           </div>
+          <div class="mt-6">
+            <button class="btn btn-primary" @click="welcome">Login</button>
+          </div>
         </form>
       </div>
     </div>
@@ -40,12 +43,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
+import { ref, getCurrentInstance } from 'vue'
+import service from '@/service/request'
+const app = getCurrentInstance()
 const name = ref('')
 const pass = ref('')
 const sub = () => {
   console.log(name.value, pass.value)
+}
+const welcome = async () => {
+  const res = await service.get('/welcome')
+  console.log(app)
 }
 </script>
 
