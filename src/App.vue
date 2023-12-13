@@ -1,6 +1,6 @@
 <template>
   <AppForm />
-  <button class="btn btn-primary" @click="welcome">web</button>
+  <button class="btn btn-primary" @click="welcome">web123</button>
 </template>
 
 <script setup>
