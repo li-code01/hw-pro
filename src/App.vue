@@ -1,6 +1,6 @@
 <template>
   <AppForm />
-  <button class="btn btn-primary" @click="welcome">Login</button>
+  <button class="btn btn-primary" @click="welcome">web</button>
 </template>
 
 <script setup>
