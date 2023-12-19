@@ -1,6 +1,6 @@
 <template>
   <div role="tablist" class="tabs tabs-boxed">
-    <a role="tab" class="tab" :class="tabskey === 1 ? 'tab-active' : ''" @click="selectTabs(1, 'welcome')">首页</a>
+    <a role="tab" class="tab" :class="tabskey === 1 ? 'tab-active' : ''" @click="selectTabs(1, 'welcomeIndex')">首页</a>
     <a role="tab" class="tab" :class="tabskey === 2 ? 'tab-active' : ''" @click="selectTabs(2, 'welcomeTable')">日历</a>
   </div>
   <router-view></router-view>
