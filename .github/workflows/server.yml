@@ -45,7 +45,11 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: my-app
-
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: 启动容器
         uses: docker/build-push-action@v2
         with:
