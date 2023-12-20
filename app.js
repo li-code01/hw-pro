@@ -11,7 +11,7 @@ app.use(
 );
 
 app.get("/welcome", (req, res) => {
-  let result = generateToken();
+  let result = generateToken.generateToken();
   res.send(result);
 });
 
