@@ -17,14 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: 安装依赖
-        run: npm install
-
       - name: 上传项目到华为云
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -34,3 +26,4 @@ jobs:
           source: ./*
           target: /root/web-server
           tar_dereference: true
+          script_after: "npm install"
