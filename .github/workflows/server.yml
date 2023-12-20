@@ -35,4 +35,4 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd /root/web-server
-            docker-compose up -d
+            docker ps -a
