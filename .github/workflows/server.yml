@@ -26,4 +26,5 @@ jobs:
           source: ./*
           target: /root/web-server
           tar_dereference: true
-          script_after: "npm install"
+          script_after: \
+            "npm install"
