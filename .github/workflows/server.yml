@@ -36,7 +36,6 @@ jobs:
           script_stop: true
           script: |
             cd /root/web-server
-            ll
             docker ps -a
             docker stop web-server
             docker rm web-server
