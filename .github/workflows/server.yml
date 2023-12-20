@@ -36,7 +36,7 @@ jobs:
           tar_dereference: true
 
       - name: 删除镜像
-        run: docker rmi my-app
+        run: docker rmi my-app:latest
 
       - name: 停止容器
         run: docker stop my-app
