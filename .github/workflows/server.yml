@@ -36,6 +36,10 @@ jobs:
           tar_dereference: true
           script_after: |
             docker ps -a
+            docker stop my-app
+            docker rm my-app:latest
+            docker build -t my-app .
+            docker run -d --name my-app -p 1216:1216 my-app
 
       # - name: 查看容器
       #   run: docker ps -a
