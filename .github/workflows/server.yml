@@ -36,7 +36,7 @@ jobs:
           script_stop: true
           script: |
             cd /root/web-server
-            npm i
+            ll
             docker ps -a
             docker stop web-server
             docker rm web-server
