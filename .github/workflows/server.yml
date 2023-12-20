@@ -34,9 +34,11 @@ jobs:
           source: ./*
           target: /root/web-server
           tar_dereference: true
+          script_after: |
+            docker ps -a
 
-      - name: 查看容器
-        run: docker ps -a
+      # - name: 查看容器
+      #   run: docker ps -a
 
       # - name: 停止容器
       #   run: docker stop my-app
@@ -47,11 +49,11 @@ jobs:
       # - name: 删除镜像
       #   run: docker rmi my-app:latest
 
-      - name: 构建镜像
-        run: docker build -t my-app .
+      # - name: 构建镜像
+      #   run: docker build -t my-app .
 
-      - name: 启动容器
-        run: docker run -d --name my-app -p 1216:1216 my-app
+      # - name: 启动容器
+      #   run: docker run -d --name my-app -p 1216:1216 my-app
 
-      - name: 查看容器
-        run: docker ps -a
+      # - name: 查看容器
+      #   run: docker ps -a
