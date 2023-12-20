@@ -34,6 +34,13 @@ jobs:
           source: ./*
           target: /root/web-server
           tar_dereference: true
-          cmd: \
-            cm /root/web-server \
-            docker ps -a \
+
+      - name: 登陆服务器
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: root
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            cd /root/web-server
+            docker-compose up -d
