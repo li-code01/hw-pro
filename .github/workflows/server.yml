@@ -2,9 +2,9 @@ name: server
 
 on:
   push:
-    branches: [ "server" ]
+    branches: ["server"]
   pull_request:
-    branches: [ "server" ]
+    branches: ["server"]
 
 jobs:
   build:
@@ -15,16 +15,28 @@ jobs:
         node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Set up Docker  
-        uses: docker/setup-docker@v1  
-      - name: Build Docker Image  
-        run: docker build -t service .  
-      - name: Push Docker Image to Registry  
-        run: docker push service
+      - name: 安装依赖
+          run: npm install
+
+      - name: 上传项目到华为云
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          username: root
+          password: ${{ secrets.PASSWORD }}
+          source: ./*
+          target: /root/web-server
+          tar_dereference: true
+
+      - name: 构建镜像
+          run: docker build -t my-app.
+          
+      - name: 启动容器
+          run: docker run -p 1216:1216 my-app -name my-app
