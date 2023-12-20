@@ -35,14 +35,14 @@ jobs:
           target: /root/web-server
           tar_dereference: true
 
-      - name: 删除镜像
-        run: docker rmi my-app:latest
-
       - name: 停止容器
         run: docker stop my-app
 
       - name: 删除容器
         run: docker rm my-app
+
+      - name: 删除镜像
+        run: docker rmi my-app:latest
 
       - name: 构建镜像
         run: docker build -t my-app .
