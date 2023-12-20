@@ -10,4 +10,4 @@ COPY . .
 EXPOSE 1216
   
 # 设置默认命令  
-CMD [ "node", "app.js" ]
+CMD [ "npm", "start" ]
