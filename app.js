@@ -1,5 +1,5 @@
 const express = require("express");
-const generateToken = require("./utils/generateToken");
+const generateToken = require("./utils/creatToken");
 const app = express();
 const port = 1216;
 const cors = require("cors");
