@@ -33,6 +33,12 @@ jobs:
           host: ${{ secrets.HOST }}
           username: root
           password: ${{ secrets.PASSWORD }}
+          script_stop: true
           script: |
             cd /root/web-server
+            npm i
             docker ps -a
+            docker stop web-server
+            docker rm web-server
+            docker build -t web-server .
+            docker run -itd -p 1216:1216 --name web-server web-server
