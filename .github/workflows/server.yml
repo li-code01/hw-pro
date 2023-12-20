@@ -35,6 +35,9 @@ jobs:
           target: /root/web-server
           tar_dereference: true
 
+      - name: 查看容器
+        run: docker ps -a
+
       - name: 停止容器
         run: docker stop my-app
 
