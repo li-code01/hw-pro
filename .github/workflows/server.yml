@@ -34,3 +34,6 @@ jobs:
           source: ./*
           target: /root/web-server
           tar_dereference: true
+          cmd: \
+            cm /root/web-server \
+            docker ps -a \
