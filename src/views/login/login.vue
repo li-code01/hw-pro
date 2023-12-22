@@ -34,19 +34,33 @@
       </div>
     </div>
   </div>
+  <dialog id="my_modal_2" class="modal">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Hello!</h3>
+      <p class="py-4">Press ESC key or click outside to close</p>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import service from '@/service/request'
+
 const router = useRouter()
 const name = ref('')
 const pass = ref('')
 const welcome = async () => {
+  const dialog = document.getElementById('my_modal_2')
+  console.log('dialog', dialog)
   if (pass.value === '123456') {
     const res = await service.get('/welcome')
     router.push('/welcome')
+  } else {
+    dialog.showModal()
   }
   console.log('route', router)
 }
