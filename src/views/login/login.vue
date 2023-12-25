@@ -37,7 +37,7 @@
   <dialog id="my_modal_2" class="modal">
     <div class="modal-box">
       <h3 class="font-bold text-lg">Hello!</h3>
-      <p class="py-4">Press ESC key or click outside to close</p>
+      <p class="py-4">密码错误</p>
     </div>
     <form method="dialog" class="modal-backdrop">
       <button>close</button>
@@ -55,14 +55,13 @@ const name = ref('')
 const pass = ref('')
 const welcome = async () => {
   const dialog = document.getElementById('my_modal_2')
-  console.log('dialog', dialog)
   if (pass.value === '123456') {
     const res = await service.get('/welcome')
-    router.push('/welcome')
+    window.localStorage.setItem('token', res.data.data)
+    router.push('/welcomeIndex')
   } else {
     dialog.showModal()
   }
-  console.log('route', router)
 }
 </script>
 
