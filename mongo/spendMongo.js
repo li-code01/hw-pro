@@ -1,106 +1,60 @@
 const mongodb = require("./connectMongo");
+const collectionName = "spend";
 module.exports = {
   /**
    * 查询
-   * @param collection 集合名称
+   * @param dbName 数据库名称
    * @param params 查询条件
-   * @param cb
    */
-  query: function (collection, params, cb) {
-    console.log("111", mongodb);
-    mongodb.conn("spend", function (db) {
-      console.log("查询", db);
-      db.collection(collection)
-        .find(params)
-        .toArray(function (err, results) {
-          cb(err, results);
-        });
-    });
+  query: async function (dbName, params) {
+    const db = await mongodb.conn(collectionName);
+    const data = await db.collection(dbName).find(params).toArray();
+    return data;
   },
 
   /**
    * 查询一条记录
-   * @param collection 集合名称
+   * @param dbName 数据库名称
    * @param params 查询条件
-   * @param cb
    */
-  queryOne: function (collection, params, cb) {
-    mongodb.conn("spend", function (db) {
-      db.collection(collection).findOne(params, function (err, results) {
-        cb(err, results);
-      });
-    });
-  },
-
-  /**
-   * 查询所有数据(分页)
-   * @param collection 集合名称
-   * @param obj 查询参数
-   * @param cb
-   */
-  queryAll: function (collection, obj, cb) {
-    obj.params = obj.params || {};
-    obj.sortObj = obj.sortObj || {};
-    obj.limit = obj.limit || 10;
-    obj.page = obj.page || 0;
-    obj.skip = obj.limit * obj.page;
-    mongodb.conn("spend", function (db) {
-      db.collection(collection)
-        .find(obj.whereObj)
-        .sort(obj.sortObj)
-        .limit(obj.limit)
-        .skip(obj.skip)
-        .toArray(function (err, results) {
-          cb(err, results);
-        });
-    });
+  queryOne: async function (dbName, params) {
+    const db = await mongodb.conn(collectionName);
+    const data = await db.collection(dbName).findOne(params).toArray();
+    return data;
   },
 
   /**
    * 插入一条数据
-   * @param collection 集合名称
+   * @param dbName 数据库名称
    * @param obj 数据
-   * @param cb 返回值
    */
-  insert: function (collection, obj, cb) {
-    mongodb.conn("spend", function (db) {
-      db.collection(collection).insertOne(obj, function (err, results) {
-        cb(err, results);
-      });
-    });
+  insert: async function (dbName, obj) {
+    const db = await mongodb.conn(collectionName);
+    const data = await db.collection(dbName).insertOne(obj).toArray();
+    return data;
   },
 
   /**
    * 批量插入数据
-   * @param collection 集合名称
+   * @param dbName 数据库名称
    * @param arr 数组
-   * @param cb 返回值
    */
-  insertBatch: function (collection, arr, cb) {
-    mongodb.conn("spend", function (db) {
-      db.collection(collection).insertMany(obj, function (err, results) {
-        cb(err, results);
-      });
-    });
+  insertBatch: async function (dbName, arr) {
+    const db = await mongodb.conn(collectionName);
+    const data = await db.collection(dbName).insertMany(arr).toArray();
+    return data;
   },
 
   /**
    * 修改一条记录
-   * @param collection 集合名称
+   * @param dbName 数据库名称
    * @param whereObj 条件
    * @param upObj 更新内容
-   * @param cb 返回值
    */
-  update: function (collection, whereObj, upObj, cb) {
-    mongodb.conn("spend", function (db) {
-      db.collection(collection).updateOne(
-        whereObj,
-        upObj,
-        function (err, results) {
-          cb(err, results);
-        }
-      );
-    });
+  update: async function (dbName, whereObj, upObj) {
+    const db = await mongodb.conn(collectionName);
+    const data = await db.collection(dbName).updateOne(whereObj, upObj);
+    return data;
   },
 
   /**
@@ -109,11 +63,9 @@ module.exports = {
    * @param whereObj 条件
    * @param cb 返回值
    */
-  delete: function (collection, whereObj, cb) {
-    mongodb.conn("spend", function (db) {
-      db.collection(collection).deleteOne(whereObj, function (err, results) {
-        cb(err, results);
-      });
-    });
+  delete: async function (dbName, whereObj) {
+    const db = await mongodb.conn(collectionName);
+    const data = await db.collection(dbName).deleteOne(whereObj);
+    return data;
   },
 };
