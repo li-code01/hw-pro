@@ -44,7 +44,7 @@ import { ref, onMounted } from 'vue'
 import service from '@/service/request'
 const tableData = ref([])
 const initData = async () => {
-  const res = await service.get('/spendApi')
+  const res = await service.get('/spendApi?type=edit')
   tableData.value = res.data
 }
 
