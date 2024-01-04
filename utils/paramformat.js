@@ -16,8 +16,12 @@ const postParamsByUrl = (req) => {
     resolve(querystring.parse(myobj.path));
   });
 };
-
+const apiByUrl = (req, prefixReplace) => {
+  let path = req._parsedUrl.pathname;
+  return path.replace(prefixReplace, "");
+};
 module.exports = {
   getParamsByUrl,
   postParamsByUrl,
+  apiByUrl,
 };
