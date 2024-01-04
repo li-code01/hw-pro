@@ -23,7 +23,10 @@ service.post = function (url, data, config) {
     url: baseURL + url,
     method: 'post',
     data: data,
-    ...config
+    ...config,
+    headers: {
+      token: localStorage.getItem('token')
+    }
   })
 }
 
@@ -32,7 +35,10 @@ service.get = function (url, config) {
   return service({
     url: baseURL + url,
     method: 'get',
-    ...config
+    ...config,
+    headers: {
+      token: localStorage.getItem('token')
+    }
   })
 }
 

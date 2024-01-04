@@ -41,7 +41,9 @@ const loading = ref(false)
 const page = ref(1)
 const limit = ref(30)
 const initData = async () => {
-  const res = await service.get(`/spendApi?type=edit&page=${page.value}&limit=${limit.value}`)
+  const res = await service.get(
+    `/spendApi/getSpendList?type=edit&page=${page.value}&limit=${limit.value}`
+  )
   console.log('res', res.data.data)
   tableData.value = res.data.data
 }

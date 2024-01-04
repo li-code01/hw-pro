@@ -89,11 +89,14 @@ import { get } from 'http'; import { get } from 'http';
       </div>
     </div>
   </div>
+  <SpendTotalChart />
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import dayjs from 'dayjs'
+// 引入SpendTotalChart组件
+import SpendTotalChart from './components/SpendTotalChart.vue'
 const sec = ref(dayjs().get('second'))
 const min = ref(dayjs().get('minute'))
 const hour = ref(dayjs().get('hour'))
