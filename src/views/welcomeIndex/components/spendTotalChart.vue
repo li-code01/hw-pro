@@ -1,4 +1,13 @@
 <template>
+  <div class="form-control w-full max-w-md">
+    <label class="label cursor-pointer ml-10">
+      <span class="label-text">年份：</span>
+      <select class="select w-full max-w-xs" @change="changeYear">
+        <option value="2023" selected>2023</option>
+        <option value="2024">2024</option>
+      </select>
+    </label>
+  </div>
   <div class="flex w-full">
     <div class="grid w-full flex-grow card place-items-center">
       <div ref="leftChart" style="width: 100%; height: 400px"></div>
@@ -15,14 +24,11 @@ import { ref, onMounted } from 'vue'
 import service from '@/service/request'
 const leftChart = ref(null)
 const rightChart = ref(null)
-const initData = async () => {
-  const res = await service.get(`/spendApi/getSpendTotal?type=get`)
-  const chartData = res.data.data
-  const zzlChartData = chartData.filter((i) => i.pay_user === 'zzl')
-  const fjChartData = chartData.filter((i) => i.pay_user === 'fj')
+const initChartData = (data) => {
+  const zzlChartData = data.filter((i) => i.pay_user === 'zzl')
+  const fjChartData = data.filter((i) => i.pay_user === 'fj')
   const leftChartDom = echarts.init(leftChart.value)
   const rightChartDom = echarts.init(rightChart.value)
-  console.log('res', chartData)
   const zzlOption = {
     // chart option
     tooltip: {
@@ -83,6 +89,21 @@ const initData = async () => {
   }
   leftChartDom.setOption(zzlOption)
   rightChartDom.setOption(fjOption)
+}
+const changeYear = async (e) => {
+  console.log(e.target.value)
+  const res = await service.get(`/spendApi/getSpendTotal?type=get&year=${e.target.value}`)
+  if (res.data.code === 200) {
+    const chartData = res.data.data
+    initChartData(chartData)
+  }
+}
+const initData = async () => {
+  const res = await service.get(`/spendApi/getSpendTotal?type=get&year=2023`)
+  if (res.data.code === 200) {
+    const chartData = res.data.data
+    initChartData(chartData)
+  }
 }
 onMounted(() => {
   initData()

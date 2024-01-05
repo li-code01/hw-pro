@@ -1,4 +1,3 @@
-import { get } from 'http'; import { get } from 'http';
 <template>
   <div class="flex justify-center" style="margin-top: 50px">
     <div class="grid grid-flow-col gap-5 text-center auto-cols-max">
@@ -27,79 +26,53 @@ import { get } from 'http'; import { get } from 'http';
     <div class="stats shadow">
       <div class="stat">
         <div class="stat-figure text-secondary">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            class="inline-block w-8 h-8 stroke-current"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            ></path>
-          </svg>
+          <span class="iconfont" style="font-size: 50px; color: #00aeff">&#xe67e;</span>
         </div>
-        <div class="stat-title">Downloads</div>
-        <div class="stat-value">31K</div>
-        <div class="stat-desc">Jan 1st - Feb 1st</div>
+        <div class="stat-title">Today</div>
+        <div class="stat-value" style="color: #00aeff">{{ todaySpend }}</div>
       </div>
 
       <div class="stat">
         <div class="stat-figure text-secondary">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            class="inline-block w-8 h-8 stroke-current"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-            ></path>
-          </svg>
+          <span class="iconfont" style="font-size: 50px; color: #cf0072">&#xe63f;</span>
         </div>
-        <div class="stat-title">New Users</div>
-        <div class="stat-value">4,200</div>
-        <div class="stat-desc">↗︎ 400 (22%)</div>
+        <div class="stat-title">Month</div>
+        <div class="stat-value" style="color: #cf0072">{{ monthSpend }}</div>
       </div>
 
       <div class="stat">
         <div class="stat-figure text-secondary">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            class="inline-block w-8 h-8 stroke-current"
+          <span
+            class="iconfont cursor-pointer"
+            style="font-size: 50px; color: #00d2f3"
+            @click="addSpendRecord"
+            >&#xe664;</span
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-            ></path>
-          </svg>
         </div>
-        <div class="stat-title">New Registers</div>
-        <div class="stat-value">1,200</div>
-        <div class="stat-desc">↘︎ 90 (14%)</div>
+        <div class="stat-title">add</div>
       </div>
     </div>
   </div>
+  <div class="divider"></div>
   <SpendTotalChart />
+  <SpendRecord />
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import dayjs from 'dayjs'
 // 引入SpendTotalChart组件
-import SpendTotalChart from './components/SpendTotalChart.vue'
+import SpendTotalChart from './components/spendTotalChart.vue'
+import SpendRecord from './components/spendRecord.vue'
 const sec = ref(dayjs().get('second'))
 const min = ref(dayjs().get('minute'))
 const hour = ref(dayjs().get('hour'))
+const addSpendRecord = () => {
+  const dialog = document.getElementById('spendRecordModal')
+  dialog.showModal()
+}
+const todaySpend = ref(0)
+const monthSpend = ref(0)
 // 实现一个时分秒倒计时
 setInterval(() => {
   sec.value++
@@ -113,3 +86,21 @@ setInterval(() => {
   }
 }, 1000)
 </script>
+
+<style>
+/* 在线链接服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
+@font-face {
+  font-family: 'iconfont'; /* Project id 4400373 */
+  src:
+    url('//at.alicdn.com/t/c/font_4400373_kxy7pw57hc.woff2?t=1704441524845') format('woff2'),
+    url('//at.alicdn.com/t/c/font_4400373_kxy7pw57hc.woff?t=1704441524845') format('woff'),
+    url('//at.alicdn.com/t/c/font_4400373_kxy7pw57hc.ttf?t=1704441524845') format('truetype');
+}
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+</style>

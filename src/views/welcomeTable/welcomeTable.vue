@@ -11,7 +11,7 @@
           <th>pay_type</th>
           <th>pay_user</th>
           <th>type</th>
-          <th>_id</th>
+          <!-- <th>_id</th> -->
         </tr>
       </thead>
       <tbody>
@@ -24,7 +24,7 @@
           <td>{{ item.pay_type }}</td>
           <td>{{ item.pay_user }}</td>
           <td>{{ item.type }}</td>
-          <td>{{ item._id }}</td>
+          <!-- <td>{{ item._id }}</td> -->
         </tr>
       </tbody>
     </table>
