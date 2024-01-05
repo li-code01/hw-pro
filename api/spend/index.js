@@ -1,5 +1,6 @@
 const getSpendList = require("./spendApi");
 const spendTotal = require("./spendTotalApi");
+const spendRecord = require("./spendRecord");
 const { apiByUrl } = require("../../utils/paramformat");
 module.exports = async (req, res) => {
   let apiName = await apiByUrl(req, "/spendApi/");
@@ -10,6 +11,9 @@ module.exports = async (req, res) => {
       break;
     case "getSpendTotal":
       spendTotal(req, res);
+      break;
+    case "spendRecord":
+      spendRecord(req, res);
       break;
     default:
       res.json({ code: 404, msg: "api not found" });

@@ -1,9 +1,11 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const generateToken = require("./utils/creatToken");
 const app = express();
 const port = 1216;
 const cors = require("cors");
 const spendGate = require("./api/spend/index");
+
 app.use(
   cors({
     origin: "*", // 允许来自 example.com 的跨域请求
@@ -19,8 +21,21 @@ app.use(function (req, res, next) {
     res.send({ code: 1, msg: "token错误" });
   }
 });
+// 解析application/json请求体
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(bodyParser.json());
 app.get(/spendApi/, spendGate);
-
+app.post(/spendApi/, spendGate);
+// app.post(/spendApi/, (req, res) => {
+//   const data = req.body;
+//   console.log("data", data);
+//   res.send({ code: 0, data: [] });
+//   // spendGate
+// });
 app.get("/welcome", (req, res) => {
   let result = generateToken.generateToken();
   res.send({ code: 0, data: result });

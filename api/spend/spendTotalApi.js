@@ -1,10 +1,10 @@
 const spendMongo = require("../../mongo/spendMongo");
 const { getParamsByUrl } = require("../../utils/paramformat");
 module.exports = async (req, res) => {
-  let { type } = await getParamsByUrl(req);
-  console.log("spendTotalApi", type);
+  let { type, year } = await getParamsByUrl(req);
+  console.log("spendTotalApi", type, year);
   try {
-    const data = await spendMongo.query("spend_total", {});
+    const data = await spendMongo.query("spend_total", { year: Number(year) });
     res.json({ code: 200, data: data });
   } catch (error) {
     console.log(error);

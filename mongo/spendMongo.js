@@ -48,7 +48,7 @@ module.exports = {
    */
   insert: async function (dbName, obj) {
     const db = await mongodb.conn(collectionName);
-    const data = await db.collection(dbName).insertOne(obj).toArray();
+    const data = await db.collection(dbName).insertOne(obj);
     return data;
   },
 
