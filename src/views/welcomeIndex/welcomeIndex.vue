@@ -59,8 +59,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
+import service from '@/service/request'
 // 引入SpendTotalChart组件
 import SpendTotalChart from './components/spendTotalChart.vue'
 import SpendRecord from './components/spendRecord.vue'
@@ -71,6 +72,32 @@ const addSpendRecord = () => {
   const dialog = document.getElementById('spendRecordModal')
   dialog.showModal()
 }
+const initSpend = async () => {
+  const queryDate = dayjs().format('YYYY/MM/DD')
+  const params = {
+    date: queryDate,
+    page: 1,
+    limit: 30
+  }
+  const res = await service.post('/spendApi/getSpendList', params)
+  const { data } = res.data
+  // 计算当天
+  todaySpend.value = data.reduce((acc, item) => {
+    let itemTaday = dayjs(item.date).format('DD')
+    let nowTaday = dayjs().format('DD')
+    if (itemTaday === nowTaday) {
+      return acc + item.money
+    } else {
+      return acc
+    }
+  }, 0)
+  monthSpend.value = data.reduce((acc, item) => {
+    return acc + item.money
+  }, 0)
+}
+onMounted(() => {
+  initSpend()
+})
 const todaySpend = ref(0)
 const monthSpend = ref(0)
 // 实现一个时分秒倒计时

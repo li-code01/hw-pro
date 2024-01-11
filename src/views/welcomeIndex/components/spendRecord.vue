@@ -95,7 +95,7 @@ const formItems = ref([
     label: 'pay_user:',
     name: 'pay_user',
     type: 'radio',
-    value: 'pay_user',
+    value: 'zzl',
     class: 'radio',
     childern: [
       { value: 'zzl', icon: 1, name: 'pay_user', checked: true },
@@ -112,11 +112,12 @@ const submitForm = async () => {
   formData.forEach((item) => {
     result[item.name] = item.value
   })
-  result.date = dayjs().format('YYYY-MM-DD HH:mm:ss')
+  result.date = dayjs().format('YYYY/MM/DD HH:mm:ss')
   result.action = 'add'
   console.log(result, formData)
   const res = await service.post(`/spendApi/spendRecord`, result)
   console.log('res', res.data.data)
+  const dialog = document.getElementById('spendRecordModal')
 }
 </script>
 <style>
