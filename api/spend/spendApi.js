@@ -1,11 +1,12 @@
 const spendMongo = require("../../mongo/spendMongo");
 const { getParamsByUrl } = require("../../utils/paramformat");
 module.exports = async (req, res) => {
-  let { page, limit } = await getParamsByUrl(req);
+  const postData = req.body;
+  const { page, limit, date } = postData;
   try {
     const data = await spendMongo.queryByPage(
-      "spend_list",
-      {},
+      "spent_list",
+      { date: { $regex: date } },
       page,
       limit - 0
     );
