@@ -11,7 +11,8 @@ if (process.env.NODE_ENV === 'production') {
   baseURL = 'http://124.71.138.134:1216'
 } else {
   // 开发环境
-  baseURL = 'http://198.18.0.1:1216'
+  // baseURL = 'http://198.18.0.1:1216'
+  baseURL = 'http://192.168.1.119:1216'
 }
 
 // 配置请求头

@@ -55,7 +55,7 @@
   </div>
   <div class="divider"></div>
   <SpendTotalChart />
-  <SpendRecord />
+  <SpendRecord :initSpend="initSpend" />
 </template>
 
 <script setup>
@@ -73,7 +73,7 @@ const addSpendRecord = () => {
   dialog.showModal()
 }
 const initSpend = async () => {
-  const queryDate = dayjs().format('YYYY/MM/DD')
+  const queryDate = dayjs().format('YYYY/MM')
   const params = {
     date: queryDate,
     page: 1,

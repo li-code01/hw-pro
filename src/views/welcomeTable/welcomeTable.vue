@@ -49,14 +49,17 @@
       </tbody>
     </table>
     <button class="join-item btn btn-outline" @click="prevPage" :disabled="page === 1">Prev</button>
-    <button class="join-item btn btn-outline" @click="nextPage">Next</button>
+    <button class="join-item btn btn-outline" @click="nextPage" :disabled="tableData.length <= 25">
+      Next
+    </button>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import dayjs from 'dayjs'
 import service from '@/service/request'
-const date = ref('2023/12')
+const date = ref(dayjs().format('YYYY/MM'))
 const tableData = ref([])
 const loading = ref(false)
 const page = ref(1)

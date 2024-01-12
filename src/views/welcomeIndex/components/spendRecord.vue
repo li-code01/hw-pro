@@ -50,13 +50,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineProps } from 'vue'
 import dayjs from 'dayjs'
 import service from '@/service/request'
-
+const props = defineProps(['initSpend'])
+// const { initSpend } = initSpend();
 // 定义表单字段
 const formItems = ref([
   { label: 'context:', name: 'context', value: 'test', type: 'text', childern: [] },
+  {
+    label: 'date:',
+    name: 'date',
+    value: dayjs().format('YYYY/MM/DD HH:mm:00'),
+    type: 'text',
+    childern: []
+  },
   {
     label: 'mode:',
     name: 'mode',
@@ -106,18 +114,17 @@ const formItems = ref([
 ])
 // 表单提交的回调函数
 const submitForm = async () => {
+  const dialog = document.getElementById('spendRecordModal')
   const formData = formItems.value
   let result = {}
 
   formData.forEach((item) => {
     result[item.name] = item.value
   })
-  result.date = dayjs().format('YYYY/MM/DD HH:mm:ss')
   result.action = 'add'
-  console.log(result, formData)
-  const res = await service.post(`/spendApi/spendRecord`, result)
-  console.log('res', res.data.data)
-  const dialog = document.getElementById('spendRecordModal')
+  await service.post(`/spendApi/spendRecord`, result)
+  dialog.close()
+  props.initSpend()
 }
 </script>
 <style>
