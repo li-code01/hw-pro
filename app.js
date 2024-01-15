@@ -5,6 +5,7 @@ const app = express();
 const port = 1216;
 const cors = require("cors");
 const spendGate = require("./api/spend/index");
+const scoreGate = require("./api/score/index");
 
 app.use(
   cors({
@@ -30,6 +31,8 @@ app.use(
 app.use(bodyParser.json());
 app.get(/spendApi/, spendGate);
 app.post(/spendApi/, spendGate);
+
+app.get(/scoreApi/, scoreGate);
 // app.post(/spendApi/, (req, res) => {
 //   const data = req.body;
 //   console.log("data", data);
