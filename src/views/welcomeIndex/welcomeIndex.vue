@@ -82,18 +82,22 @@ const initSpend = async () => {
   const res = await service.post('/spendApi/getSpendList', params)
   const { data } = res.data
   // 计算当天
-  todaySpend.value = data.reduce((acc, item) => {
-    let itemTaday = dayjs(item.date).format('DD')
-    let nowTaday = dayjs().format('DD')
-    if (itemTaday === nowTaday) {
+  todaySpend.value = data
+    .reduce((acc, item) => {
+      let itemTaday = dayjs(item.date).format('DD')
+      let nowTaday = dayjs().format('DD')
+      if (itemTaday === nowTaday) {
+        return acc + item.money
+      } else {
+        return acc
+      }
+    }, 0)
+    .toFixed(2)
+  monthSpend.value = data
+    .reduce((acc, item) => {
       return acc + item.money
-    } else {
-      return acc
-    }
-  }, 0)
-  monthSpend.value = data.reduce((acc, item) => {
-    return acc + item.money
-  }, 0)
+    }, 0)
+    .toFixed(2)
 }
 onMounted(() => {
   initSpend()

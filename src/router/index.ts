@@ -27,6 +27,11 @@ const router = createRouter({
           path: '/welcomeIndex',
           name: 'welcome-index',
           component: () => import('../views/welcomeIndex/welcomeIndex.vue')
+        },
+        {
+          path: '/training',
+          name: 'welcome-training',
+          component: () => import('../views/training/score/score.vue')
         }
       ]
     }
