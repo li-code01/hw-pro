@@ -10,7 +10,7 @@
         />
 
         <button
-          class="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold p-2 w-1/3 rounded-md hover:bg-indigo-600 hover:to-blue-600 transition ease-in-out duration-150"
+          class="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold p-2 rounded-md hover:bg-indigo-600 hover:to-blue-600 transition ease-in-out duration-150"
           @click="queryData"
         >
           搜索
@@ -39,7 +39,21 @@
           <td>{{ item.context }}</td>
           <td>{{ item.date }}</td>
           <td>{{ item.mode }}</td>
-          <td>{{ item.money }}</td>
+          <td>
+            <div class="flex w-full">
+              <div class="grid w-20">
+                {{ item.money }}
+              </div>
+              <div class="grid w-5">
+                <progress
+                  class="progress w-20"
+                  :class="item.money > 250 ? 'progress-secondary' : 'progress-primary'"
+                  :value="item.money"
+                  max="500"
+                ></progress>
+              </div>
+            </div>
+          </td>
           <td>{{ item.pay }}</td>
           <td>{{ item.pay_type }}</td>
           <td>{{ item.pay_user }}</td>
