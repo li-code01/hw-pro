@@ -50,10 +50,73 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, watch } from 'vue'
 import dayjs from 'dayjs'
 import service from '@/service/request'
-const props = defineProps(['initSpend'])
+const props = defineProps(['initSpend', 'editSpandParams', 'modalType'])
+// 用watch监听prpos中的editSpandParams
+watch(props, (newVal) => {
+  if (newVal) {
+    console.log(newVal.editSpandParams)
+    const { context, date, mode, money, pay, pay_type, pay_user, type } = newVal.editSpandParams
+    formItems.value = [
+      { label: 'context:', name: 'context', value: context, type: 'text', childern: [] },
+      {
+        label: 'date:',
+        name: 'date',
+        value: dayjs(date).format('YYYY/MM/DD HH:mm:00'),
+        type: 'text',
+        childern: []
+      },
+      {
+        label: 'mode:',
+        name: 'mode',
+        type: 'radio',
+        value: mode,
+        class: 'radio',
+        childern: [
+          { label: '支出', value: '支出', name: 'mode', checked: true },
+          { label: '收入', value: '收入', name: 'mode' }
+        ]
+      },
+      { label: 'money:', name: 'money', value: money, type: 'text', childern: [] },
+      {
+        label: 'pay:',
+        name: 'pay',
+        type: 'radio',
+        value: pay,
+        class: 'radio',
+        childern: [
+          { label: '信用卡', value: '信用卡', name: 'pay', checked: true },
+          { label: '余额', value: '余额', name: 'pay' }
+        ]
+      },
+      {
+        label: 'pay_type:',
+        name: 'pay_type',
+        type: 'radio',
+        class: 'radio',
+        value: pay_type,
+        childern: [
+          { label: 'zfb', value: 'zfb', name: 'pay_type', checked: true },
+          { label: 'wx', value: 'wx', name: 'pay_type' }
+        ]
+      },
+      {
+        label: 'pay_user:',
+        name: 'pay_user',
+        type: 'radio',
+        value: pay_user,
+        class: 'radio',
+        childern: [
+          { value: 'zzl', icon: 1, name: 'pay_user', checked: true },
+          { value: 'fj', icon: 0, name: 'pay_user' }
+        ]
+      },
+      { label: 'type:', name: 'type', value: type, childern: [] }
+    ]
+  }
+})
 // const { initSpend } = initSpend();
 // 定义表单字段
 const formItems = ref([
@@ -117,14 +180,17 @@ const submitForm = async () => {
   const dialog = document.getElementById('spendRecordModal')
   const formData = formItems.value
   let result = {}
-
-  formData.forEach((item) => {
-    result[item.name] = item.value
-  })
-  result.action = 'add'
-  await service.post(`/spendApi/spendRecord`, result)
-  dialog.close()
-  props.initSpend()
+  if (props.modalType === 'edit') {
+    dialog.close()
+  } else {
+    formData.forEach((item) => {
+      result[item.name] = item.value
+    })
+    result.action = 'add'
+    await service.post(`/spendApi/spendRecord`, result)
+    dialog.close()
+    props.initSpend()
+  }
 }
 </script>
 <style>
