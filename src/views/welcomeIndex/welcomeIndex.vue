@@ -77,7 +77,7 @@ const initSpend = async () => {
   const params = {
     date: queryDate,
     page: 1,
-    limit: 30
+    limit: 1000
   }
   const res = await service.post('/spendApi/getSpendList', params)
   const { data } = res.data
