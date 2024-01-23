@@ -15,10 +15,9 @@
 </template>
 
 <script setup>
-import { ref, defineProps, watch } from 'vue'
-import dayjs from 'dayjs'
+import { defineProps } from 'vue'
 import service from '@/service/request'
-const props = defineProps(['editSpandParams'])
+const props = defineProps(['editSpandParams', 'id', 'initData'])
 
 // 表单提交的回调函数
 const close = async () => {
@@ -26,8 +25,16 @@ const close = async () => {
   dialog.close()
 }
 const deleteItem = async () => {
-  console.log(props.editSpandParams)
   const dialog = document.getElementById('spendRecordModal')
+  try {
+    let result = {}
+    result.action = 'delete'
+    result.id = props.id
+    await service.post(`/spendApi/spendRecord`, result)
+    props.initData()
+  } catch {
+    console.log('error')
+  }
   dialog.close()
 }
 </script>

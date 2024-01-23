@@ -18,7 +18,14 @@
       role="tab"
       class="tab"
       :class="tabskey === 3 ? 'tab-active' : ''"
-      @click="selectTabs(3, 'training')"
+      @click="selectTabs(3, 'mark')"
+      >备忘录</a
+    >
+    <a
+      role="tab"
+      class="tab"
+      :class="tabskey === 4 ? 'tab-active' : ''"
+      @click="selectTabs(4, 'training')"
       >驾照</a
     >
   </div>

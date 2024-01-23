@@ -53,7 +53,7 @@
 import { ref, defineProps, watch } from 'vue'
 import dayjs from 'dayjs'
 import service from '@/service/request'
-const props = defineProps(['initSpend', 'editSpandParams', 'modalType'])
+const props = defineProps(['initSpend', 'editSpandParams', 'modalType', 'id', 'initData'])
 // 用watch监听prpos中的editSpandParams
 watch(props, (newVal) => {
   if (newVal) {
@@ -180,16 +180,20 @@ const submitForm = async () => {
   const dialog = document.getElementById('spendRecordModal')
   const formData = formItems.value
   let result = {}
+  formData.forEach((item) => {
+    result[item.name] = item.value
+  })
   if (props.modalType === 'edit') {
+    result.action = 'edit'
+    result.id = props.id
+    await service.post(`/spendApi/spendRecord`, result)
     dialog.close()
+    props.initData()
   } else {
-    formData.forEach((item) => {
-      result[item.name] = item.value
-    })
     result.action = 'add'
     await service.post(`/spendApi/spendRecord`, result)
     dialog.close()
-    props.initSpend()
+    props.initSpend ? props.initSpend() : props.initData()
   }
 }
 </script>

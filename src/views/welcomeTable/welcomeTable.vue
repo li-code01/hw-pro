@@ -147,8 +147,13 @@
     <button class="join-item btn btn-outline" @click="nextPage" :disabled="tableData.length !== 18">
       Next
     </button>
-    <SpendRecord :editSpandParams="editSpandParams" :modalType="modalType" />
-    <DelSpendRecord :editSpandParams="editSpandParams" />
+    <SpendRecord
+      :editSpandParams="editSpandParams"
+      :modalType="modalType"
+      :id="id"
+      :initData="initData"
+    />
+    <DelSpendRecord :editSpandParams="editSpandParams" :id="id" :initData="initData" />
   </div>
 </template>
 
@@ -161,6 +166,7 @@ import service from '@/service/request'
 const date = ref(dayjs().format('YYYY/MM'))
 const tableData = ref([])
 const modalType = ref('')
+const id = ref('')
 const editSpandParams = ref({})
 const loading = ref(false)
 const page = ref(1)
@@ -172,7 +178,6 @@ const initData = async () => {
     limit: limit.value
   }
   const res = await service.post('/spendApi/getSpendList', data)
-  console.log('res', res.data.data)
   tableData.value = res.data.data
 }
 const queryData = async () => {
@@ -184,7 +189,6 @@ const queryData = async () => {
     limit: limit.value
   }
   const res = await service.post('/spendApi/getSpendList', data)
-  console.log('res', res.data.data)
   tableData.value = res.data.data
 }
 const addSpendRecord = () => {
@@ -192,36 +196,31 @@ const addSpendRecord = () => {
   dialog.showModal()
 }
 const editSpandItem = (item) => {
-  console.log('item', item)
   const dialog = document.getElementById('spendRecordModal')
   dialog.showModal()
   modalType.value = 'edit'
+  id.value = item._id
   editSpandParams.value = item
 }
 const deleteSpandItem = (item) => {
-  console.log('delSpendRecord', item)
   const dialog = document.getElementById('delSpendRecord')
   dialog.showModal()
+  id.value = item._id
   editSpandParams.value = item
 }
 const nextPage = () => {
-  console.log('nextPage')
   if (loading.value === true) return // 加载中时不允许翻页
   if (tableData.value.length === 0) return // 没有数据时不允许翻页
   page.value++
   initData() // 加载上一页数据
 }
 const prevPage = () => {
-  console.log('prevPage')
   if (loading.value === true) return // 加载中时不允许翻页
   if (tableData.value.length === 0) return // 没有数据时不允许翻页
   page.value--
   initData() // 加载上一页数据
 }
 onMounted(() => {
-  // 在组件挂载后执行的代码
-  console.log('组件已挂载')
-  // 设置data的值为'Hello World'
   initData()
 })
 </script>
