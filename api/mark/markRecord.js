@@ -1,13 +1,12 @@
-const spendMongo = require("../../mongo/spendMongo");
+const markMongo = require("../../mongo/markMongo");
 const bodyParser = require("body-parser");
 const ObjectId = require("mongodb").ObjectId;
 module.exports = async (req, res) => {
   const postData = req.body;
-  postData.money = Number(postData.money);
   switch (postData.action) {
     case "add":
       try {
-        await spendMongo.insert("spent_list", { ...postData });
+        await markMongo.insert("mark_list", { ...postData });
         res.json({ code: 200, data: [] });
       } catch (error) {
         console.log(error);
@@ -18,8 +17,8 @@ module.exports = async (req, res) => {
       try {
         // 把id转换成 mongod ObjectId
         let objectId = new ObjectId(postData.id);
-        await spendMongo.update(
-          "spent_list",
+        await markMongo.update(
+          "mark_list",
           { _id: objectId },
           { $set: { ...postData } }
         );
@@ -33,7 +32,7 @@ module.exports = async (req, res) => {
       try {
         // 把id转换成 mongod ObjectId
         let objectId = new ObjectId(postData.id);
-        await spendMongo.delete("spent_list", { _id: objectId });
+        await markMongo.delete("mark_list", { _id: objectId });
         res.json({ code: 200, data: [] });
       } catch (error) {
         console.log(error);

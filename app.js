@@ -6,7 +6,7 @@ const port = 1216;
 const cors = require("cors");
 const spendGate = require("./api/spend/index");
 const scoreGate = require("./api/score/index");
-
+const markGate = require("./api/mark/index");
 app.use(
   cors({
     origin: "*", // 允许来自 example.com 的跨域请求
@@ -31,7 +31,7 @@ app.use(
 app.use(bodyParser.json());
 app.get(/spendApi/, spendGate);
 app.post(/spendApi/, spendGate);
-
+app.post(/markApi/, markGate);
 app.get(/scoreApi/, scoreGate);
 // app.post(/spendApi/, (req, res) => {
 //   const data = req.body;
