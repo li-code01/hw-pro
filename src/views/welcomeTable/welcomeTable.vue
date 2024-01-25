@@ -193,6 +193,7 @@ const queryData = async () => {
 }
 const addSpendRecord = () => {
   const dialog = document.getElementById('spendRecordModal')
+  modalType.value = 'add'
   dialog.showModal()
 }
 const editSpandItem = (item) => {

@@ -3,8 +3,8 @@
     <label class="label cursor-pointer ml-10">
       <span class="label-text">年份：</span>
       <select class="select w-full max-w-xs" @change="changeYear">
-        <option value="2023" selected>2023</option>
-        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2024" selected>2024</option>
       </select>
     </label>
   </div>
@@ -99,7 +99,7 @@ const changeYear = async (e) => {
   }
 }
 const initData = async () => {
-  const res = await service.get(`/spendApi/getSpendTotal?type=get&year=2023`)
+  const res = await service.get(`/spendApi/getSpendTotal?type=get&year=2024`)
   if (res.data.code === 200) {
     const chartData = res.data.data
     initChartData(chartData)

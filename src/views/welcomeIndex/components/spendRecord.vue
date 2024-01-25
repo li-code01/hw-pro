@@ -34,7 +34,8 @@
                   :class="item.class"
                   :name="item.name"
                   :checked="child.checked"
-                  v-model="child.value"
+                  :value="child.value"
+                  v-model="item.value"
                 />
               </div>
             </div>
@@ -57,14 +58,17 @@ const props = defineProps(['initSpend', 'editSpandParams', 'modalType', 'id', 'i
 // 用watch监听prpos中的editSpandParams
 watch(props, (newVal) => {
   if (newVal) {
-    console.log(newVal.editSpandParams)
+    console.log('editSpandParams', newVal.editSpandParams)
     const { context, date, mode, money, pay, pay_type, pay_user, type } = newVal.editSpandParams
-    formItems.value = [
+    let cloneData = formItems.value
+    cloneData = [
       { label: 'context:', name: 'context', value: context, type: 'text', childern: [] },
       {
         label: 'date:',
         name: 'date',
-        value: dayjs(date).format('YYYY/MM/DD HH:mm:00'),
+        value: date
+          ? dayjs(date).format('YYYY/MM/DD HH:mm:00')
+          : dayjs(date).format('YYYY/MM/DD HH:mm:00'),
         type: 'text',
         childern: []
       },
@@ -72,22 +76,22 @@ watch(props, (newVal) => {
         label: 'mode:',
         name: 'mode',
         type: 'radio',
-        value: mode,
+        value: mode ?? '支出',
         class: 'radio',
         childern: [
-          { label: '支出', value: '支出', name: 'mode', checked: true },
+          { label: '支出', value: '支出', name: 'mode' },
           { label: '收入', value: '收入', name: 'mode' }
         ]
       },
-      { label: 'money:', name: 'money', value: money, type: 'text', childern: [] },
+      { label: 'money:', name: 'money', value: money ?? 5.5, type: 'text', childern: [] },
       {
         label: 'pay:',
         name: 'pay',
         type: 'radio',
-        value: pay,
+        value: pay ?? '信用卡',
         class: 'radio',
         childern: [
-          { label: '信用卡', value: '信用卡', name: 'pay', checked: true },
+          { label: '信用卡', value: '信用卡', name: 'pay' },
           { label: '余额', value: '余额', name: 'pay' }
         ]
       },
@@ -96,9 +100,9 @@ watch(props, (newVal) => {
         name: 'pay_type',
         type: 'radio',
         class: 'radio',
-        value: pay_type,
+        value: pay_type ?? 'zfb',
         childern: [
-          { label: 'zfb', value: 'zfb', name: 'pay_type', checked: true },
+          { label: 'zfb', value: 'zfb', name: 'pay_type' },
           { label: 'wx', value: 'wx', name: 'pay_type' }
         ]
       },
@@ -106,15 +110,16 @@ watch(props, (newVal) => {
         label: 'pay_user:',
         name: 'pay_user',
         type: 'radio',
-        value: pay_user,
+        value: pay_user ?? 'zzl',
         class: 'radio',
         childern: [
-          { value: 'zzl', icon: 1, name: 'pay_user', checked: true },
+          { value: 'zzl', icon: 1, name: 'pay_user' },
           { value: 'fj', icon: 0, name: 'pay_user' }
         ]
       },
-      { label: 'type:', name: 'type', value: type, childern: [] }
+      { label: 'type:', name: 'type', value: type ?? '餐厅美食', childern: [] }
     ]
+    formItems.value = cloneData
   }
 })
 // const { initSpend } = initSpend();
@@ -180,6 +185,7 @@ const submitForm = async () => {
   const dialog = document.getElementById('spendRecordModal')
   const formData = formItems.value
   let result = {}
+  console.log('formData', formData)
   formData.forEach((item) => {
     result[item.name] = item.value
   })
