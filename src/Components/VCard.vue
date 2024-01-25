@@ -27,17 +27,12 @@
           <div class="back">
             <div class="back-content">
               <input
-                :disabled="item.action === 'add'"
                 :value="item.title"
                 type="text"
                 placeholder="Type here"
                 class="input input-bordered input-warning"
               />
-              <textarea
-                :disabled="item.action === 'add'"
-                class="textarea textarea-warning h-40"
-                :value="item.context"
-              ></textarea>
+              <textarea class="textarea textarea-warning h-40" :value="item.context"></textarea>
               <div class="flex justify-center">
                 <button class="buttons" @click="deleteItem(item._id)">
                   <svg
