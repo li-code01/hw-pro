@@ -33,6 +33,13 @@
             </svg>
           </span>
         </button>
+        <button class="chekcdeBtn" @click="checkAll">
+          <span> 全选 </span>
+        </button>
+        <button class="chekcdeBtn" @click="reset">
+          <span> 重置 </span>
+        </button>
+        <div class="stat-value">{{ nowSpend.toFixed(2) }}</div>
       </div>
     </div>
   </div>
@@ -55,7 +62,46 @@
       </thead>
       <tbody>
         <tr v-for="item in tableData" :key="item._id">
-          <td>{{ item.context }}</td>
+          <td class="flex justify-start items-center">
+            <div class="cntr w-10">
+              <div class="checkbox-wrapper-12">
+                <div class="cbx">
+                  <input
+                    :checked="allCheckedId.includes(item._id)"
+                    @change="checkOne(item._id)"
+                    type="checkbox"
+                    id="cbx-12"
+                  />
+                  <label for="cbx-12"></label>
+                  <svg fill="none" viewBox="0 0 15 14" height="14" width="15">
+                    <path d="M2 8.36364L6.23077 12L13 2"></path>
+                  </svg>
+                </div>
+
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <filter id="goo-12">
+                      <feGaussianBlur
+                        result="blur"
+                        stdDeviation="4"
+                        in="SourceGraphic"
+                      ></feGaussianBlur>
+                      <feColorMatrix
+                        result="goo-12"
+                        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
+                        mode="matrix"
+                        in="blur"
+                      ></feColorMatrix>
+                      <feBlend in2="goo-12" in="SourceGraphic"></feBlend>
+                    </filter>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+            <div>
+              {{ item.context }}
+            </div>
+          </td>
           <td>{{ item.date }}</td>
           <td>{{ item.mode }}</td>
           <td>
@@ -166,6 +212,9 @@ import service from '@/service/request'
 const date = ref(dayjs().format('YYYY/MM'))
 const tableData = ref([])
 const modalType = ref('')
+const allChecked = ref(false)
+const allCheckedId = ref([])
+const nowSpend = ref(0)
 const id = ref('')
 const editSpandParams = ref({})
 const loading = ref(false)
@@ -208,6 +257,34 @@ const deleteSpandItem = (item) => {
   dialog.showModal()
   id.value = item._id
   editSpandParams.value = item
+}
+const checkAll = () => {
+  const ids = tableData.value.map((item) => item._id)
+  const total = tableData.value.reduce((total, item) => total + item.money, 0)
+  console.log('id', ids, total, nowSpend.value)
+  allCheckedId.value = tableData.value.concat(ids)
+  nowSpend.value = total + nowSpend.value
+  allChecked.value = true
+}
+const reset = () => {
+  allCheckedId.value = []
+  nowSpend.value = 0
+  allChecked.value = false
+}
+const checkOne = (id) => {
+  let data = allCheckedId.value
+  if (data.includes(id)) {
+    let arr = []
+    arr = data.filter((item) => item !== id)
+    nowSpend.value -= tableData.value.find((item) => item._id === id).money
+    allCheckedId.value = arr
+  } else {
+    let arr = data
+    arr.push(id)
+    console.log('id', id, arr)
+    nowSpend.value += tableData.value.find((item) => item._id === id).money
+    allCheckedId.value = arr
+  }
 }
 const nextPage = () => {
   if (loading.value === true) return // 加载中时不允许翻页
@@ -423,5 +500,217 @@ onMounted(() => {
   100% {
     transform: translate3d(0, 0, 0) translateZ(0);
   }
+}
+.checkbox-wrapper-12 {
+  position: relative;
+}
+
+.checkbox-wrapper-12 > svg {
+  position: absolute;
+  top: -130%;
+  left: -170%;
+  width: 110px;
+  pointer-events: none;
+}
+
+.checkbox-wrapper-12 * {
+  box-sizing: border-box;
+}
+
+.checkbox-wrapper-12 input[type='checkbox'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+
+.checkbox-wrapper-12 input[type='checkbox']:focus {
+  outline: 0;
+}
+
+.checkbox-wrapper-12 .cbx {
+  width: 24px;
+  height: 24px;
+  top: calc(100px - 12px);
+  left: calc(100px - 12px);
+}
+
+.checkbox-wrapper-12 .cbx input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #bfbfc0;
+  border-radius: 50%;
+}
+
+.checkbox-wrapper-12 .cbx label {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: trasnlate3d(0, 0, 0);
+  pointer-events: none;
+}
+
+.checkbox-wrapper-12 .cbx svg {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.checkbox-wrapper-12 .cbx svg path {
+  stroke: #fff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 19;
+  stroke-dashoffset: 19;
+  transition: stroke-dashoffset 0.3s ease;
+  transition-delay: 0.2s;
+}
+
+.checkbox-wrapper-12 .cbx input:checked + label {
+  animation: splash-12 0.6s ease forwards;
+}
+
+.checkbox-wrapper-12 .cbx input:checked + label + svg path {
+  stroke-dashoffset: 0;
+}
+
+@-moz-keyframes splash-12 {
+  40% {
+    background: #866efb;
+    box-shadow:
+      0 -18px 0 -8px #866efb,
+      16px -8px 0 -8px #866efb,
+      16px 8px 0 -8px #866efb,
+      0 18px 0 -8px #866efb,
+      -16px 8px 0 -8px #866efb,
+      -16px -8px 0 -8px #866efb;
+  }
+
+  100% {
+    background: #866efb;
+    box-shadow:
+      0 -36px 0 -10px transparent,
+      32px -16px 0 -10px transparent,
+      32px 16px 0 -10px transparent,
+      0 36px 0 -10px transparent,
+      -32px 16px 0 -10px transparent,
+      -32px -16px 0 -10px transparent;
+  }
+}
+
+@-webkit-keyframes splash-12 {
+  40% {
+    background: #866efb;
+    box-shadow:
+      0 -18px 0 -8px #866efb,
+      16px -8px 0 -8px #866efb,
+      16px 8px 0 -8px #866efb,
+      0 18px 0 -8px #866efb,
+      -16px 8px 0 -8px #866efb,
+      -16px -8px 0 -8px #866efb;
+  }
+
+  100% {
+    background: #866efb;
+    box-shadow:
+      0 -36px 0 -10px transparent,
+      32px -16px 0 -10px transparent,
+      32px 16px 0 -10px transparent,
+      0 36px 0 -10px transparent,
+      -32px 16px 0 -10px transparent,
+      -32px -16px 0 -10px transparent;
+  }
+}
+
+@-o-keyframes splash-12 {
+  40% {
+    background: #866efb;
+    box-shadow:
+      0 -18px 0 -8px #866efb,
+      16px -8px 0 -8px #866efb,
+      16px 8px 0 -8px #866efb,
+      0 18px 0 -8px #866efb,
+      -16px 8px 0 -8px #866efb,
+      -16px -8px 0 -8px #866efb;
+  }
+
+  100% {
+    background: #866efb;
+    box-shadow:
+      0 -36px 0 -10px transparent,
+      32px -16px 0 -10px transparent,
+      32px 16px 0 -10px transparent,
+      0 36px 0 -10px transparent,
+      -32px 16px 0 -10px transparent,
+      -32px -16px 0 -10px transparent;
+  }
+}
+
+@keyframes splash-12 {
+  40% {
+    background: #866efb;
+    box-shadow:
+      0 -18px 0 -8px #866efb,
+      16px -8px 0 -8px #866efb,
+      16px 8px 0 -8px #866efb,
+      0 18px 0 -8px #866efb,
+      -16px 8px 0 -8px #866efb,
+      -16px -8px 0 -8px #866efb;
+  }
+
+  100% {
+    background: #866efb;
+    box-shadow:
+      0 -36px 0 -10px transparent,
+      32px -16px 0 -10px transparent,
+      32px 16px 0 -10px transparent,
+      0 36px 0 -10px transparent,
+      -32px 16px 0 -10px transparent,
+      -32px -16px 0 -10px transparent;
+  }
+}
+
+.hidden-xs-up {
+  display: none !important;
+}
+.chekcdeBtn {
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(32deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  transition: all 1.5s ease;
+  font-family: 'Ropa Sans', sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.05rem;
+  padding: 0;
+}
+
+.chekcdeBtn span {
+  display: inline-block;
+  padding: 15px 35px;
+  font-size: 17px;
+  border-radius: 20px;
+  background: #ffffff10;
+  backdrop-filter: blur(20px);
+  transition: 0.4s ease-in-out;
+  transition-property: color;
+  height: 100%;
+  width: 100%;
+}
+
+.chekcdeBtn span:hover {
+  backdrop-filter: blur(0px);
+  color: #ffffff;
 }
 </style>
