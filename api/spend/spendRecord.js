@@ -54,6 +54,7 @@ module.exports = async (req, res) => {
     return obj;
   };
   const getSpendListByMonth = async (date) => {
+    console.log('dayjs(date).format("YYYY/MM")', dayjs(date).format("YYYY/MM"));
     let list = await spendMongo.query("spent_list", {
       date: { $regex: dayjs(date).format("YYYY/MM") },
     });
