@@ -48,8 +48,8 @@ app.get("/welcome", (req, res) => {
 
 // app.listen(port);
 const opt = {
-  key: fs.readFileSync("./certs/a-home.xyz_server.key"),
-  cert: fs.readFileSync("./certs/a-home.xyz_server.crt"),
+  key: fs.readFileSync("./cert/a-home.xyz_server.key"),
+  cert: fs.readFileSync("./cert/a-home.xyz_server.crt"),
 };
 const server = https.createServer(opt, app);
 server.listen(port, () => {
