@@ -43,7 +43,7 @@ app.get(/scoreApi/, scoreGate);
 // });
 app.get("/welcome", (req, res) => {
   let result = generateToken.generateToken();
-  res.send({ code: 0, data: result });
+  res.send({ code: 200, data: result });
 });
 
 // app.listen(port);
