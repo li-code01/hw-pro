@@ -8,10 +8,10 @@ const service = axios.create()
 let baseURL = ''
 if (process.env.NODE_ENV === 'production') {
   // 生产环境
-  baseURL = 'http://124.71.138.134:1216'
+  baseURL = 'https://a-home.xyz:1216'
 } else {
   // 开发环境
-  baseURL = 'http://198.18.0.1:1216'
+  baseURL = 'https://198.18.0.116:1216'
   // baseURL = 'http://192.168.1.119:1216'
 }
 
