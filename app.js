@@ -4,6 +4,7 @@ const generateToken = require("./utils/creatToken");
 const app = express();
 const port = 1216;
 const cors = require("cors");
+const https = require("https");
 const spendGate = require("./api/spend/index");
 const scoreGate = require("./api/score/index");
 const markGate = require("./api/mark/index");
@@ -44,4 +45,12 @@ app.get("/welcome", (req, res) => {
   res.send({ code: 0, data: result });
 });
 
-app.listen(port);
+// app.listen(port);
+const opt = {
+  key: fs.readFileSync("./certs/a-home.xyz_server.key"),
+  cert: fs.readFileSync("./certs/a-home.xyz_server.crt"),
+};
+const server = https.createServer(opt, app);
+server.listen(port, () => {
+  console.log("port", port);
+});
