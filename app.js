@@ -5,6 +5,7 @@ const app = express();
 const port = 1216;
 const cors = require("cors");
 const https = require("https");
+const fs = require("fs");
 const spendGate = require("./api/spend/index");
 const scoreGate = require("./api/score/index");
 const markGate = require("./api/mark/index");
