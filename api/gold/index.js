@@ -1,5 +1,7 @@
 const axios = require("axios");
 const dayjs = require("dayjs");
+var utc = require("dayjs/plugin/utc");
+dayjs.extend(utc);
 const goldMongo = require("../../mongo/goldMongo");
 // 获取金价
 const getGoldPrice = async () => {
@@ -38,7 +40,7 @@ module.exports = async (req, res) => {
       min: data.min,
       max: data.max,
       heyue: data.heyue,
-      createDate: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      createDate: dayjs.utc().format("YYYY-MM-DD HH:mm:ss"),
     };
     res.json({ code: 200, data: goldInfo });
     recardGoldPrice(goldInfo);
