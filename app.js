@@ -36,7 +36,7 @@ app.get(/spendApi/, spendGate);
 app.post(/spendApi/, spendGate);
 app.post(/markApi/, markGate);
 app.get(/scoreApi/, scoreGate);
-app.get(/goldApi/, goldGate);
+app.post(/goldApi/, goldGate);
 // app.post(/spendApi/, (req, res) => {
 //   const data = req.body;
 //   console.log("data", data);
