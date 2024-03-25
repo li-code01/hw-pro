@@ -39,6 +39,13 @@
         <div class="stat-title">Month</div>
         <div class="stat-value" style="color: #cf0072">{{ monthSpend }}</div>
       </div>
+      <div class="stat">
+        <div class="stat-figure text-secondary">
+          <span class="iconfont" style="font-size: 50px; color: 'gold'">&#xe705;</span>
+        </div>
+        <div class="stat-title">Gold</div>
+        <div class="stat-value" style="color: 'gold'">{{ goldPrice }}</div>
+      </div>
 
       <div class="stat">
         <div class="stat-figure text-secondary">
@@ -68,6 +75,10 @@ import SpendRecord from './components/spendRecord.vue'
 const sec = ref(dayjs().get('second'))
 const min = ref(dayjs().get('minute'))
 const hour = ref(dayjs().get('hour'))
+
+const todaySpend = ref(0)
+const monthSpend = ref(0)
+const goldPrice = ref(0)
 const addSpendRecord = () => {
   const dialog = document.getElementById('spendRecordModal')
   dialog.showModal()
@@ -80,7 +91,9 @@ const initSpend = async () => {
     limit: 1000
   }
   const res = await service.post('/spendApi/getSpendList', params)
+  const goldRes = await service.post('/goldApi')
   const { data } = res.data
+  goldPrice.value = goldRes.data.data.max
   // 计算当天
   todaySpend.value = data
     .reduce((acc, item) => {
@@ -102,8 +115,6 @@ const initSpend = async () => {
 onMounted(() => {
   initSpend()
 })
-const todaySpend = ref(0)
-const monthSpend = ref(0)
 // 实现一个时分秒倒计时
 setInterval(() => {
   sec.value++
@@ -123,9 +134,9 @@ setInterval(() => {
 @font-face {
   font-family: 'iconfont'; /* Project id 4400373 */
   src:
-    url('//at.alicdn.com/t/c/font_4400373_kxy7pw57hc.woff2?t=1704441524845') format('woff2'),
-    url('//at.alicdn.com/t/c/font_4400373_kxy7pw57hc.woff?t=1704441524845') format('woff'),
-    url('//at.alicdn.com/t/c/font_4400373_kxy7pw57hc.ttf?t=1704441524845') format('truetype');
+    url('//at.alicdn.com/t/c/font_4400373_8pd99b1nbf3.woff2?t=1711357646317') format('woff2'),
+    url('//at.alicdn.com/t/c/font_4400373_8pd99b1nbf3.woff?t=1711357646317') format('woff'),
+    url('//at.alicdn.com/t/c/font_4400373_8pd99b1nbf3.ttf?t=1711357646317') format('truetype');
 }
 .iconfont {
   font-family: 'iconfont' !important;
