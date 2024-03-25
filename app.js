@@ -9,6 +9,7 @@ const fs = require("fs");
 const spendGate = require("./api/spend/index");
 const scoreGate = require("./api/score/index");
 const markGate = require("./api/mark/index");
+const goldGate = require("./api/gold/index");
 app.use(
   cors({
     origin: "*", // 允许来自 example.com 的跨域请求
@@ -35,6 +36,7 @@ app.get(/spendApi/, spendGate);
 app.post(/spendApi/, spendGate);
 app.post(/markApi/, markGate);
 app.get(/scoreApi/, scoreGate);
+app.get(/goldApi/, goldGate);
 // app.post(/spendApi/, (req, res) => {
 //   const data = req.body;
 //   console.log("data", data);
