@@ -28,8 +28,10 @@ const getGoldPrice = async () => {
 // 记录金价
 const recardGoldPrice = async (goldInfo) => {
   console.log("recardGoldPrice", goldInfo);
-
-  await goldMongo.insert("gold_day_list", goldInfo);
+  const whereObj = {
+    createDate: { $regex: dayjs().add(8, "hour").format("YYYY-MM-DD") },
+  };
+  await goldMongo.update("gold_day_list", whereObj, goldInfo);
 };
 module.exports = async (req, res) => {
   try {
