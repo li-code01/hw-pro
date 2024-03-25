@@ -31,7 +31,10 @@ const recardGoldPrice = async (goldInfo) => {
   const whereObj = {
     createDate: { $regex: dayjs().add(8, "hour").format("YYYY-MM-DD") },
   };
-  await goldMongo.update("gold_day_list", whereObj, goldInfo);
+  const queryRecard = await goldMongo.query("gold_day_list", whereObj);
+  if (queryRecard.length === 0) {
+    await goldMongo.insert("gold_day_list", goldInfo);
+  }
 };
 module.exports = async (req, res) => {
   try {
