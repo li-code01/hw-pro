@@ -36,7 +36,7 @@ const recardGoldPrice = async (goldInfo) => {
   if (queryRecard.length === 0) {
     await goldMongo.insert("gold_day_list", goldInfo);
   } else {
-    await goldMongo.update("gold_day_list", whereObj, goldInfo);
+    await goldMongo.update("gold_day_list", whereObj, { $set: goldInfo });
   }
 };
 module.exports = async (req, res) => {
