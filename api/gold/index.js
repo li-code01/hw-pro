@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
       min: data.min,
       max: data.max,
       heyue: data.heyue,
-      createDate: dayjs.utc().format("YYYY-MM-DD HH:mm:ss"),
+      createDate: dayjs.utc().local().format("YYYY-MM-DD HH:mm:ss"),
     };
     res.json({ code: 200, data: goldInfo });
     recardGoldPrice(goldInfo);
