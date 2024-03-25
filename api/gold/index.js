@@ -1,11 +1,6 @@
 const axios = require("axios");
 const dayjs = require("dayjs");
 const goldMongo = require("../../mongo/goldMongo");
-// 获取当前时间的 UTC 时间
-const nowUtc = dayjs.utc();
-
-// 将 UTC 时间转换为北京时间
-const nowBeijing = nowUtc.utcOffset(8);
 // 获取金价
 const getGoldPrice = async () => {
   const data = {
@@ -36,7 +31,6 @@ const recardGoldPrice = async (goldInfo) => {
 
   await goldMongo.insert("gold_day_list", goldInfo);
 };
-
 module.exports = async (req, res) => {
   try {
     const data = await getGoldPrice();
@@ -44,7 +38,7 @@ module.exports = async (req, res) => {
       min: data.min,
       max: data.max,
       heyue: data.heyue,
-      createDate: nowBeijing.format("YYYY-MM-DD HH:mm:ss"),
+      createDate: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     };
     res.json({ code: 200, data: goldInfo });
     recardGoldPrice(goldInfo);
