@@ -16,23 +16,19 @@ const getGoldPrice = async () => {
       },
     })
     .then(function (response) {
-      console.log(response.data);
       return response.data;
     })
     .catch(function (error) {
       console.log(error);
     });
-  console.log("getGoldPrice", res);
   return res;
 };
 // 记录金价
 const recardGoldPrice = async (goldInfo) => {
-  console.log("recardGoldPrice", goldInfo);
   const whereObj = {
     createDate: { $regex: dayjs().add(8, "hour").format("YYYY-MM-DD") },
   };
   const queryRecard = await goldMongo.query("gold_day_list", whereObj);
-  console.log("queryRecard", queryRecard, whereObj);
   if (queryRecard.length === 0) {
     await goldMongo.insert("gold_day_list", goldInfo);
   } else {

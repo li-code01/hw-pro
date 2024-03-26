@@ -48,12 +48,18 @@ app.get("/welcome", (req, res) => {
   res.send({ code: 200, data: result });
 });
 
-// app.listen(port);
-const opt = {
-  key: fs.readFileSync("./cert/a-home.xyz_server.key"),
-  cert: fs.readFileSync("./cert/a-home.xyz_server.crt"),
-};
-const server = https.createServer(opt, app);
-server.listen(port, () => {
-  console.log("port", port);
-});
+// 判断开发环境还是生产环境
+if (process.env.NODE_ENV === "production") {
+  const opt = {
+    key: fs.readFileSync("./cert/a-home.xyz_server.key"),
+    cert: fs.readFileSync("./cert/a-home.xyz_server.crt"),
+  };
+  const server = https.createServer(opt, app);
+  server.listen(port, () => {
+    console.log("production", port);
+  });
+} else {
+  app.listen(1216, () => {
+    console.log("Server is running on port 1216");
+  });
+}
