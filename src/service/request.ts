@@ -11,8 +11,8 @@ if (process.env.NODE_ENV === 'production') {
   baseURL = 'https://a-home.xyz:1216'
 } else {
   // 开发环境
-  baseURL = 'https://a-home.xyz:1216'
-  // baseURL = 'http://192.168.1.119:1216'
+  // baseURL = 'https://a-home.xyz:1216'
+  baseURL = 'http://localhost:1216'
 }
 
 // 配置请求头

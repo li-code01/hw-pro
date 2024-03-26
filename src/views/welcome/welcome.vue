@@ -28,6 +28,13 @@
       @click="selectTabs(4, 'training')"
       >驾照</a
     >
+    <a
+      role="tab"
+      class="tab"
+      :class="tabskey === 5 ? 'tab-active' : ''"
+      @click="selectTabs(5, 'my')"
+      >我的</a
+    >
   </div>
   <router-view></router-view>
 </template>
