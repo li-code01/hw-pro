@@ -48,4 +48,4 @@ jobs:
             docker stop web-server
             docker rm web-server
             docker build -t web-server .
-            docker run -itd -p 1216:1216 --name web-server web-server
+            docker run -itd -p 1216:1216 -e NODE_ENV=production --name web-server web-server
